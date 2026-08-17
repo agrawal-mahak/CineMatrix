@@ -7,13 +7,13 @@ const SeatLegend = () => {
       {/* Standard */}
       <div className="flex items-center gap-2">
         <div className="w-5 h-5 rounded-seat bg-seat-standard border border-slate-600" />
-        <span>Standard ($200)</span>
+        <span>Standard (₹200)</span>
       </div>
 
       {/* Premium/VIP */}
       <div className="flex items-center gap-2">
         <div className="w-5 h-5 rounded-seat bg-seat-premium border border-sky-400/30" />
-        <span>Premium / VIP ($350-$500)</span>
+        <span>Premium / VIP (₹350-₹500)</span>
       </div>
 
       {/* Selected */}

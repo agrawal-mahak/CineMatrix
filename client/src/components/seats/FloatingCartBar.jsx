@@ -27,7 +27,7 @@ const FloatingCartBar = ({ selectedSeats, totalPrice, onHoldSeats, loading }) =>
         <div className="flex items-center gap-4">
           <div className="text-right hidden sm:block">
             <div className="text-xs text-gray-400">Total Price</div>
-            <div className="text-lg font-extrabold text-emerald-400">${totalPrice}</div>
+            <div className="text-lg font-extrabold text-emerald-400">₹{totalPrice}</div>
           </div>
 
           <button
@@ -42,7 +42,7 @@ const FloatingCartBar = ({ selectedSeats, totalPrice, onHoldSeats, loading }) =>
               </>
             ) : (
               <>
-                <span>Hold & Pay (${totalPrice})</span>
+                <span>Hold & Pay (₹{totalPrice})</span>
                 <ArrowRight className="w-4 h-4" />
               </>
             )}

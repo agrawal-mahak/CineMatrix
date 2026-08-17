@@ -96,9 +96,9 @@ const seedData = async () => {
     };
 
     const theatre = await Theatre.create({
-      name: 'CineMatrix IMAX & Multiplex',
-      city: 'New York',
-      address: '742 Broadway Ave, Manhattan, NY',
+      name: 'PVR INOX : Phoenix Palladium',
+      city: 'Mumbai',
+      address: '462 Senapati Bapat Marg, Lower Parel, Mumbai',
       screens: [
         {
           screenNumber: 1,

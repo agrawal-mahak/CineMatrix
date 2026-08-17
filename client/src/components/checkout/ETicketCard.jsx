@@ -164,12 +164,12 @@ const ETicketCard = ({ booking, selectedSnacks }) => {
           <div className="space-y-1 text-[11px]">
             <div className="flex items-center justify-between text-gray-300">
               <span>Tickets ({seatList.length} Seat{seatList.length > 1 ? 's' : ''})</span>
-              <span className="font-bold text-gray-100">${ticketAmount}</span>
+              <span className="font-bold text-gray-100">₹{ticketAmount}</span>
             </div>
 
             <div className="flex items-center justify-between text-gray-300">
               <span>Booking Fee</span>
-              <span className="font-bold text-gray-100">${convenienceFee}</span>
+              <span className="font-bold text-gray-100">₹{convenienceFee}</span>
             </div>
 
             {snacksList.length > 0 && (
@@ -180,7 +180,7 @@ const ETicketCard = ({ booking, selectedSnacks }) => {
                 {snacksList.map((snack) => (
                   <div key={snack.id} className="flex items-center justify-between pl-3 text-gray-400 text-[10px]">
                     <span>{snack.name} (x{snack.quantity})</span>
-                    <span>${snack.price * snack.quantity}</span>
+                    <span>₹{snack.price * snack.quantity}</span>
                   </div>
                 ))}
               </div>
@@ -188,7 +188,7 @@ const ETicketCard = ({ booking, selectedSnacks }) => {
 
             <div className="border-t border-white/10 pt-1.5 flex items-center justify-between text-xs font-black text-white">
               <span>Total Paid</span>
-              <span className="text-sm text-emerald-400">${grandTotal}</span>
+              <span className="text-sm text-emerald-400">₹{grandTotal}</span>
             </div>
           </div>
         </div>

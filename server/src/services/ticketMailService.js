@@ -83,7 +83,7 @@ const sendTicketEmail = async (userEmail, booking, selectedSnacks = []) => {
       ${snacksList.map((s) => `
         <tr>
           <td style="padding: 4px 0 4px 12px; color: #F59E0B; font-size: 12px;">• ${s.name} (x${s.quantity})</td>
-          <td style="text-align: right; font-weight: bold; color: #F59E0B; font-size: 12px;">+$${s.price * s.quantity}</td>
+          <td style="text-align: right; font-weight: bold; color: #F59E0B; font-size: 12px;">+₹${s.price * s.quantity}</td>
         </tr>
       `).join('')}
     ` : '';
@@ -191,16 +191,16 @@ const sendTicketEmail = async (userEmail, booking, selectedSnacks = []) => {
               <table class="bill-table">
                 <tr>
                   <td>Tickets Subtotal (${seatCount} Seat${seatCount > 1 ? 's' : ''})</td>
-                  <td class="amount">$${ticketsSubtotal}</td>
+                  <td class="amount">₹${ticketsSubtotal}</td>
                 </tr>
                 <tr>
                   <td>Convenience Booking Fee</td>
-                  <td class="amount">$${convenienceFee}</td>
+                  <td class="amount">₹${convenienceFee}</td>
                 </tr>
                 ${snacksHtmlRows}
                 <tr>
                   <td class="total-label">Total Amount Paid</td>
-                  <td class="total-amount">$${grandTotal}</td>
+                  <td class="total-amount">₹${grandTotal}</td>
                 </tr>
               </table>
             </div>

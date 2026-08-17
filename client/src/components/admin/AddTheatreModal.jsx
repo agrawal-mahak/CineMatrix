@@ -137,11 +137,13 @@ const AddTheatreModal = ({ isOpen, onClose, onTheatreAdded }) => {
                 onChange={(e) => setCity(e.target.value)}
                 className="w-full px-4 py-2.5 rounded-xl bg-surface-primary border border-white/5 text-sm text-gray-100 focus:outline-none focus:border-brand-primary"
               >
-                <option value="New York">New York</option>
-                <option value="Los Angeles">Los Angeles</option>
-                <option value="Chicago">Chicago</option>
-                <option value="Miami">Miami</option>
-                <option value="San Francisco">San Francisco</option>
+                <option value="Ratlam">Ratlam</option>
+                <option value="Mumbai">Mumbai</option>
+                <option value="Delhi NCR">Delhi NCR</option>
+                <option value="Bengaluru">Bengaluru</option>
+                <option value="Indore">Indore</option>
+                <option value="Bhopal">Bhopal</option>
+                <option value="Hyderabad">Hyderabad</option>
               </select>
             </div>
 

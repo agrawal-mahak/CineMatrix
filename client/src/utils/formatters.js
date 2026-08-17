@@ -9,3 +9,11 @@ export const formatDuration = (mins) => {
   if (m === 0) return `${h}h`;
   return `${h}h ${m}m`;
 };
+
+/**
+ * Helper to format currency in Indian Rupees (₹)
+ */
+export const formatCurrency = (amount) => {
+  if (amount === undefined || amount === null) return '₹0';
+  return `₹${amount.toLocaleString('en-IN')}`;
+};

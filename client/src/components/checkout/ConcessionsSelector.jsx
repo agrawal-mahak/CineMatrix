@@ -85,7 +85,7 @@ const ConcessionsSelector = () => {
                       </span>
                     )}
                   </div>
-                  <div className="text-xs font-semibold text-emerald-400 mt-0.5">${item.price}</div>
+                  <div className="text-xs font-semibold text-emerald-400 mt-0.5">₹{item.price}</div>
                 </div>
               </div>
 

@@ -14,7 +14,7 @@ import {
 import { setSelectedCity, setSearchQuery } from '../../store/movieSlice';
 import { openAuthModal, logout } from '../../store/authSlice';
 
-const CITIES = ['New York', 'Los Angeles', 'Chicago', 'Miami', 'San Francisco'];
+const CITIES = ['Mumbai', 'Delhi NCR', 'Bengaluru', 'Ratlam', 'Indore', 'Bhopal', 'Hyderabad', 'Ahmedabad', 'Chennai', 'Kolkata', 'Pune'];
 
 const Navbar = () => {
   const dispatch = useDispatch();

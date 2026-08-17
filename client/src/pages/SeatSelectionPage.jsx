@@ -124,7 +124,7 @@ const SeatSelectionPage = () => {
 
         <div className="text-right">
           <div className="text-[11px] uppercase font-bold text-gray-500">Tier Pricing</div>
-          <div className="text-xs font-semibold text-gray-300">Standard $200 | Premium $350 | VIP $500</div>
+          <div className="text-xs font-semibold text-gray-300">Standard ₹200 | Premium ₹350 | VIP ₹500</div>
         </div>
       </div>
 

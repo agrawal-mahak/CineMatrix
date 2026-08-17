@@ -21,7 +21,7 @@ const movieSlice = createSlice({
   name: 'movies',
   initialState: {
     movies: [],
-    selectedCity: 'New York',
+    selectedCity: 'Mumbai',
     selectedGenre: 'All',
     searchQuery: '',
     watchlist: savedWatchlist,
