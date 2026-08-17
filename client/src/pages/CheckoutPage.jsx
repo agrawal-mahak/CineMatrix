@@ -53,7 +53,10 @@ const CheckoutPage = () => {
 
   const handleConfirmPayment = async () => {
     const result = await dispatch(
-      confirmBookingAction({ bookingId: currentBooking.bookingId })
+      confirmBookingAction({
+        bookingId: currentBooking.bookingId,
+        selectedSnacks,
+      })
     );
 
     if (confirmBookingAction.fulfilled.match(result)) {

@@ -15,9 +15,9 @@ export const holdSeatsAction = createAsyncThunk(
 
 export const confirmBookingAction = createAsyncThunk(
   'booking/confirmBooking',
-  async ({ bookingId }, { rejectWithValue }) => {
+  async ({ bookingId, selectedSnacks }, { rejectWithValue }) => {
     try {
-      const response = await API.post('/bookings/confirm', { bookingId });
+      const response = await API.post('/bookings/confirm', { bookingId, selectedSnacks });
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.error || 'Booking confirmation failed');

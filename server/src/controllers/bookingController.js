@@ -1,5 +1,6 @@
 const Show = require('../models/Show');
 const Booking = require('../models/Booking');
+const { sendTicketEmail } = require('../services/ticketMailService');
 
 // Helper generator for unique booking IDs
 const generateBookingId = () => {
@@ -108,7 +109,7 @@ exports.holdSeats = async (req, res, next) => {
 // @access  Private
 exports.confirmBooking = async (req, res, next) => {
   try {
-    const { bookingId } = req.body;
+    const { bookingId, selectedSnacks } = req.body;
 
     const booking = await Booking.findOne({ bookingId, userId: req.user.id });
     if (!booking) {
@@ -142,8 +143,11 @@ exports.confirmBooking = async (req, res, next) => {
 
     await show.save();
 
-    // Update booking status
+    // Update booking status and save snacks add-ons
     booking.status = 'CONFIRMED';
+    if (selectedSnacks && Array.isArray(selectedSnacks)) {
+      booking.snacks = selectedSnacks;
+    }
     await booking.save();
 
     // Populate full show, movie, and theatre details
@@ -154,6 +158,13 @@ exports.confirmBooking = async (req, res, next) => {
         { path: 'theatreId', select: 'name city address screens' },
       ],
     });
+
+    // Send HTML Ticket Receipt Email asynchronously to User including pre-ordered snacks
+    if (req.user && req.user.email) {
+      sendTicketEmail(req.user.email, populatedBooking, selectedSnacks || booking.snacks || []).catch((err) =>
+        console.error('Email dispatch error:', err)
+      );
+    }
 
     res.status(200).json({
       success: true,

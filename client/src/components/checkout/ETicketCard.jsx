@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { QrCode, Download, Share2, Ticket, Calendar, Clock, MapPin, CheckCircle2, Receipt, Star, Popcorn } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import { formatDuration } from '../../utils/formatters';
 
 const ETicketCard = ({ booking, selectedSnacks }) => {
   useEffect(() => {
@@ -85,7 +86,7 @@ const ETicketCard = ({ booking, selectedSnacks }) => {
                 <span>•</span>
                 <span className="flex items-center gap-1">
                   <Clock className="w-3 h-3 text-brand-primary" />
-                  {movie.duration || 120}m
+                  {formatDuration(movie.duration || 145)}
                 </span>
                 {movie.language && (
                   <>

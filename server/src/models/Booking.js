@@ -1,5 +1,12 @@
 const mongoose = require('mongoose');
 
+const SnackItemSchema = new mongoose.Schema({
+  id: { type: String },
+  name: { type: String },
+  price: { type: Number },
+  quantity: { type: Number },
+});
+
 const BookingSchema = new mongoose.Schema(
   {
     bookingId: {
@@ -23,6 +30,7 @@ const BookingSchema = new mongoose.Schema(
         required: true,
       },
     ],
+    snacks: [SnackItemSchema],
     totalAmount: {
       type: Number,
       required: true,

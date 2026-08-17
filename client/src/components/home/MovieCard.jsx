@@ -3,6 +3,7 @@ import { Star, Clock, Ticket, Heart } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleWatchlist } from '../../store/movieSlice';
+import { formatDuration } from '../../utils/formatters';
 
 const MovieCard = ({ movie }) => {
   const navigate = useNavigate();
@@ -63,7 +64,7 @@ const MovieCard = ({ movie }) => {
           <div className="flex items-center gap-2 mt-1.5 text-xs text-gray-400">
             <span className="flex items-center gap-1">
               <Clock className="w-3 h-3 text-gray-500" />
-              {movie.duration}m
+              {formatDuration(movie.duration)}
             </span>
             <span>•</span>
             <span className="truncate">{movie.genre?.join(', ')}</span>
