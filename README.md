@@ -19,14 +19,17 @@ Built following the **Figma UI/UX Design System Specification & Wireframe Bluepr
     - 🟢 **Green**: Available Seats
     - 🟡 **Orange**: Fast Filling
     - 🔴 **Red**: Almost Full
+- **🎭 Movie Cast & Director Showcase**:
+  - Movie Details page showcases actor photos, character roles, and director credit.
+  - Seeder & Admin Add Movie modal supporting star cast inputs and director attribution.
 - **⭐ Movie Reviews & Audience Rating System**:
   - Rating submission modal with 1–5 star hover feedback and review headline/comment.
   - Aggregate score calculator, 1–5 star rating distribution bar chart, and **Audience Approval Score %**.
 - **🏷️ Discount Promo Codes & Offers Engine**:
   - Promo code system supporting vouchers:
-    - `FIRST50`: **50% OFF up to $150**
+    - `FIRST50`: **50% OFF up to ₹150**
     - `BOOKMYSHOW20`: **20% Instant Discount**
-    - `CINEMA100`: **$100 Flat Discount** on orders over $300
+    - `CINEMA100`: **₹100 Flat Discount** on orders over ₹300
   - Live API coupon validation (`POST /api/bookings/validate-coupon`) with dynamic itemized bill breakdown.
 - **🎥 Embedded Movie Trailer Modal & Auto-Embed Converter**:
   - Embedded YouTube video trailer modal player integrated across Hero Billboard, Movie Cards, Movie Details page, and Admin Add Movie modal.
@@ -49,14 +52,14 @@ Built following the **Figma UI/UX Design System Specification & Wireframe Bluepr
   - Access control distinguishing standard `USER` accounts from `ADMIN` console managers.
 - **Interactive Cinema Seat Matrix**:
   - Curved screen SVG arc (_"ALL EYES THIS WAY • CINEMA SCREEN"_).
-  - Tier-segmented seat layout (Standard $200, Premium $350, VIP $500).
+  - Tier-segmented seat layout (Standard ₹200, Premium ₹350, VIP ₹500).
 - **10-Minute Database Seat Holds**:
   - Atomic seat locking for 10 minutes preventing double bookings.
   - Background cron worker (`node-cron`) automatically releasing expired seat holds.
 - **Pre-order Cinema Concessions & Food Store**:
   - Pre-order Jumbo Popcorn, Sodas, Cheese Nachos, and VIP Combos during checkout.
 - **📊 Interactive Box Office Revenue & Analytics Intelligence**:
-  - Live revenue analytics dashboard featuring Total Sales Revenue ($), Total Tickets Issued, and Avg Theatre Occupancy %.
+  - Live revenue analytics dashboard featuring Total Sales Revenue (₹), Total Tickets Issued, and Avg Theatre Occupancy %.
   - Top Grossing Movies ranking chart and Regional Revenue Breakdown by Cinema City.
   - Interactive Admin tab navigation (`Revenue Analytics`, `Movie Catalog`, `Showtimes Grid`).
 - **Single-Page Digital E-Ticket Pass**:
@@ -95,7 +98,7 @@ npm install
 # Configure environment variables (.env)
 # Default MONGO_URI=mongodb://127.0.0.1:27017/cinematrix
 
-# Seed database (Populates sample movies, theatres, multi-date showtimes & user reviews)
+# Seed database (Populates sample movies, theatres, multi-date showtimes, cast & user reviews)
 npm run seed
 
 # Start Server (Development mode with nodemon auto-restart)
@@ -121,15 +124,6 @@ The client application will run on `http://localhost:5173`.
 
 ---
 
-## 🔑 Test Credentials (Seeded)
-
-| Account Type      | Email                  | Password           | Role    |
-| :---------------- | :--------------------- | :----------------- | :------ |
-| **System Admin**  | `admin@cinematrix.com` | `adminpassword123` | `ADMIN` |
-| **Standard User** | `john@example.com`     | `userpassword123`  | `USER`  |
-
----
-
 ## 📡 REST API Reference
 
 ### 🔐 Auth Endpoints (`/api/auth`)
@@ -142,8 +136,8 @@ The client application will run on `http://localhost:5173`.
 ### 🍿 Movie Catalog (`/api/movies`)
 
 - `GET /api/movies` – List active movies
-- `GET /api/movies/:id` – Fetch movie by ID
-- `POST /api/movies` – Add movie with trailer URL (Admin only)
+- `GET /api/movies/:id` – Fetch movie by ID (Includes cast & director)
+- `POST /api/movies` – Add movie with trailer URL, director & cast (Admin only)
 - `PUT /api/movies/:id` – Update movie (Admin only)
 - `DELETE /api/movies/:id` – Deactivate movie (Admin only)
 
@@ -167,6 +161,7 @@ The client application will run on `http://localhost:5173`.
 - `POST /api/bookings/confirm` – Finalize purchase & issue digital E-ticket (Protected)
 - `GET /api/bookings/my-bookings` – View user booking history (Protected)
 - `POST /api/bookings/cancel` – Release seat hold (Protected)
+- `GET /api/bookings/admin/analytics` – Box Office Revenue & Analytics Intelligence (Admin only)
 
 ---
 
