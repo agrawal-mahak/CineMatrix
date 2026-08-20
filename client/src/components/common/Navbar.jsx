@@ -32,11 +32,11 @@ const Navbar = () => {
         
         {/* Brand Logo */}
         <Link to="/" className="flex items-center gap-2 group">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-primary to-rose-600 flex items-center justify-center shadow-lg shadow-brand-primary/30 group-hover:scale-105 transition-transform">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-primary to-rose-700 flex items-center justify-center shadow-lg shadow-brand-primary/40 border border-red-500/30 group-hover:scale-105 transition-transform">
             <Film className="w-6 h-6 text-white" />
           </div>
-          <span className="text-2xl font-extrabold tracking-tight text-white">
-            Cine<span className="text-brand-primary">Matrix</span>
+          <span className="text-2xl font-black tracking-tight text-white">
+            Cine<span className="text-brand-primary font-black">Matrix</span>
           </span>
         </Link>
 
@@ -66,7 +66,7 @@ const Navbar = () => {
                 onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
                 className="flex items-center gap-2.5 pl-2 pr-3 py-1.5 rounded-xl bg-surface-secondary hover:bg-surface-tertiary border border-white/10 transition-colors"
               >
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-primary to-purple-600 flex items-center justify-center text-white font-bold text-sm">
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-primary to-rose-700 flex items-center justify-center text-white font-black text-sm shadow-md border border-red-500/30 shrink-0">
                   {user?.name?.charAt(0).toUpperCase() || 'U'}
                 </div>
                 <div className="text-left hidden sm:block">

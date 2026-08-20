@@ -130,7 +130,7 @@ const ReviewList = ({ movieId, movieTitle }) => {
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-brand-primary/20 border border-brand-primary/40 flex items-center justify-center text-brand-primary font-bold text-sm">
+                  <div className="w-9 h-9 rounded-full bg-gradient-to-br from-brand-primary to-rose-700 border border-brand-primary/40 flex items-center justify-center text-white font-black text-xs shadow-sm shrink-0">
                     {rev.userName ? rev.userName.charAt(0).toUpperCase() : <User className="w-4 h-4" />}
                   </div>
                   <div>

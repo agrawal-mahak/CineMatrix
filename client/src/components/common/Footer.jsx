@@ -87,12 +87,12 @@ const Footer = () => {
           
           {/* Column 1: Brand & Newsletter */}
           <div className="lg:col-span-2 space-y-4">
-            <Link to="/" className="flex items-center gap-2">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-primary to-brand-accent flex items-center justify-center shadow-lg shadow-brand-primary/30">
-                <Film className="w-5 h-5 text-white" />
+            <Link to="/" className="flex items-center gap-2 group">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-primary to-rose-700 flex items-center justify-center shadow-lg shadow-brand-primary/40 border border-red-500/30 group-hover:scale-105 transition-transform">
+                <Film className="w-6 h-6 text-white" />
               </div>
-              <span className="text-xl font-black text-white">
-                Cine<span className="text-brand-primary">Matrix</span>
+              <span className="text-2xl font-black tracking-tight text-white">
+                Cine<span className="text-brand-primary font-black">Matrix</span>
               </span>
             </Link>
             <p className="text-xs text-gray-400 leading-relaxed max-w-sm">
