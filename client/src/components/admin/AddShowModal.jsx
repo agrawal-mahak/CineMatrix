@@ -180,7 +180,7 @@ const AddShowModal = ({ isOpen, onClose, movies, theatres, onShowAdded }) => {
           {/* Pricing Tiers */}
           <div>
             <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">
-              Seat Pricing Tiers ($ / ₹)
+              Seat Pricing Tiers (₹)
             </label>
             <div className="grid grid-cols-3 gap-2">
               <div>

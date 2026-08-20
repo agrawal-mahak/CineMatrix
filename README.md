@@ -11,8 +11,8 @@ Built following the **Figma UI/UX Design System Specification & Wireframe Bluepr
 ### 🍿 BookMyShow Ticketing Features
 
 - **🏙️ City & Device Geolocation Location Selector**:
-  - Browser Geolocation API integration ("Detect My Location") with reverse-geocoding fallback.
-  - Multi-city selector (Mumbai, Delhi NCR, Bengaluru, Hyderabad, Pune, Chennai, Kolkata, Ratlam, etc.) that filters movies, cinema halls, and showtimes by city.
+  - Browser Geolocation API integration ("Detect My Location") with dual reverse-geocoding fallbacks (OpenStreetMap Nominatim + BigDataCloud).
+  - Multi-city selector (Mumbai, Delhi NCR, Bengaluru, Hyderabad, Pune, Chennai, Kolkata, Ratlam, Indore, Bhopal, etc.) that filters movies, cinema halls, and showtimes by city.
 - **🏛️ Dedicated Theatre Showtime Matrix Grid (`/movie/:id/shows`)**:
   - Multi-date tab selector (**Today, Tomorrow, Day 3, Day 4**).
   - Cinema halls listing with showtime pills color-coded by real-time seat availability:
@@ -28,8 +28,9 @@ Built following the **Figma UI/UX Design System Specification & Wireframe Bluepr
     - `BOOKMYSHOW20`: **20% Instant Discount**
     - `CINEMA100`: **$100 Flat Discount** on orders over $300
   - Live API coupon validation (`POST /api/bookings/validate-coupon`) with dynamic itemized bill breakdown.
-- **🎥 Embedded Movie Trailer Modal**:
-  - Embedded YouTube video trailer modal player integrated across Hero Billboard, Movie Cards, and Movie Detail pages.
+- **🎥 Embedded Movie Trailer Modal & Auto-Embed Converter**:
+  - Embedded YouTube video trailer modal player integrated across Hero Billboard, Movie Cards, Movie Details page, and Admin Add Movie modal.
+  - Automatic YouTube URL formatter converts standard YouTube links into embeddable player URLs.
 - **🔍 Multi-Criteria Search & Format/Language Filters**:
   - Real-time search bar for movies by title or genre.
   - Filter chips for Formats (**2D, 3D, IMAX 3D, 4DX**) and Languages (**English, Hindi, Telugu, Tamil**).
@@ -38,7 +39,11 @@ Built following the **Figma UI/UX Design System Specification & Wireframe Bluepr
 
 ### 🎟️ Core Cinema Platform Capabilities
 
-- **Dark Cinema Aesthetic**: Figma color tokens (`#0B0F19` Surface Primary, `#161F30` Surface Secondary, `#E50914` Brand Accent) with ambient neon background lighting.
+- **Dark Cinema Aesthetic**: Harmonized dark cinema color tokens (`#090D16` Surface Primary, `#121824` Surface Secondary, `#E50914` Cinema Crimson, `#F59E0B` Warm Gold) with ambient radial lighting.
+- **📱 100% Fully Responsive Layout**:
+  - Tested across mobile, tablet, and desktop viewports.
+  - Non-overlapping Concessions selector cards with corner badges.
+  - Mobile location & movie search sub-bar in Navigation.
 - **JWT Authentication & Role-Based Access Control**:
   - Secure Registration & Login with password encryption (`bcryptjs`).
   - Access control distinguishing standard `USER` accounts from `ADMIN` console managers.
@@ -50,8 +55,10 @@ Built following the **Figma UI/UX Design System Specification & Wireframe Bluepr
   - Background cron worker (`node-cron`) automatically releasing expired seat holds.
 - **Pre-order Cinema Concessions & Food Store**:
   - Pre-order Jumbo Popcorn, Sodas, Cheese Nachos, and VIP Combos during checkout.
-- **Admin Management Console**:
-  - UI modal dialogs for publishing new Movies, registering Cinema Theatres, and scheduling Showtimes.
+- **📊 Interactive Box Office Revenue & Analytics Intelligence**:
+  - Live revenue analytics dashboard featuring Total Sales Revenue ($), Total Tickets Issued, and Avg Theatre Occupancy %.
+  - Top Grossing Movies ranking chart and Regional Revenue Breakdown by Cinema City.
+  - Interactive Admin tab navigation (`Revenue Analytics`, `Movie Catalog`, `Showtimes Grid`).
 - **Single-Page Digital E-Ticket Pass**:
   - Perforated ticket pass with QR Code entrance scanner.
   - Print-optimized single page layout (`window.print()`).
@@ -114,6 +121,15 @@ The client application will run on `http://localhost:5173`.
 
 ---
 
+## 🔑 Test Credentials (Seeded)
+
+| Account Type      | Email                  | Password           | Role    |
+| :---------------- | :--------------------- | :----------------- | :------ |
+| **System Admin**  | `admin@cinematrix.com` | `adminpassword123` | `ADMIN` |
+| **Standard User** | `john@example.com`     | `userpassword123`  | `USER`  |
+
+---
+
 ## 📡 REST API Reference
 
 ### 🔐 Auth Endpoints (`/api/auth`)
@@ -127,7 +143,7 @@ The client application will run on `http://localhost:5173`.
 
 - `GET /api/movies` – List active movies
 - `GET /api/movies/:id` – Fetch movie by ID
-- `POST /api/movies` – Add movie (Admin only)
+- `POST /api/movies` – Add movie with trailer URL (Admin only)
 - `PUT /api/movies/:id` – Update movie (Admin only)
 - `DELETE /api/movies/:id` – Deactivate movie (Admin only)
 

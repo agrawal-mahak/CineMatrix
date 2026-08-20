@@ -141,12 +141,12 @@ const CheckoutPage = () => {
             <div className="space-y-3 text-sm">
               <div className="flex items-center justify-between text-gray-300">
                 <span>Seats ({currentBooking.seats?.join(', ')})</span>
-                <span className="font-bold text-gray-100">${basePrice}</span>
+                <span className="font-bold text-gray-100">₹{basePrice}</span>
               </div>
 
               <div className="flex items-center justify-between text-gray-300">
                 <span>Convenience & Booking Fee</span>
-                <span className="font-bold text-gray-100">${convenienceFee}</span>
+                <span className="font-bold text-gray-100">₹{convenienceFee}</span>
               </div>
 
               {snacksTotal > 0 && (
@@ -154,20 +154,20 @@ const CheckoutPage = () => {
                   <span className="flex items-center gap-1">
                     <Popcorn className="w-4 h-4" /> Snacks & Food Add-ons
                   </span>
-                  <span>+${snacksTotal}</span>
+                  <span>+₹{snacksTotal}</span>
                 </div>
               )}
 
               {discount > 0 && (
                 <div className="flex items-center justify-between text-emerald-400 font-semibold">
                   <span>Promo Discount ({appliedCoupon?.code})</span>
-                  <span>-${discount}</span>
+                  <span>-₹{discount}</span>
                 </div>
               )}
 
               <div className="border-t border-white/10 pt-3 flex items-center justify-between text-base font-extrabold text-white">
                 <span>Total Amount Payable</span>
-                <span className="text-xl text-emerald-400">${totalPayable}</span>
+                <span className="text-xl text-emerald-400">₹{totalPayable}</span>
               </div>
             </div>
           </div>
@@ -199,7 +199,7 @@ const CheckoutPage = () => {
               <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2 text-emerald-400 font-bold">
                   <CheckCircle2 className="w-4 h-4" />
-                  <span>Promo Code '{appliedCoupon.code}' Applied! (${appliedCoupon.discountAmount} Off)</span>
+                  <span>Promo Code '{appliedCoupon.code}' Applied! (₹{appliedCoupon.discountAmount} Off)</span>
                 </div>
                 <button
                   onClick={handleRemoveCoupon}
@@ -335,7 +335,7 @@ const CheckoutPage = () => {
               ) : (
                 <>
                   <Lock className="w-4 h-4" />
-                  <span>Pay Securely (${totalPayable})</span>
+                  <span>Pay Securely (₹{totalPayable})</span>
                 </>
               )}
             </button>

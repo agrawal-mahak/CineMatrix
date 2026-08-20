@@ -30,7 +30,7 @@ const SeatItem = ({ seat, isSelected, onToggleSelect }) => {
     <button
       disabled={isBooked || isHeld}
       onClick={() => onToggleSelect(seatNumber)}
-      title={`${seatNumber} - $${price} (${status})`}
+      title={`${seatNumber} - ₹${price} (${status})`}
       className={`w-8 h-8 rounded-seat text-[11px] flex items-center justify-center transition-all duration-200 ${seatStyle}`}
     >
       {seatNumber}
