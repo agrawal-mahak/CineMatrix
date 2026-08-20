@@ -146,6 +146,21 @@ const Navbar = () => {
           )}
         </div>
       </div>
+
+      {/* Mobile Location Selector & Search Sub-bar */}
+      <div className="flex md:hidden items-center gap-2.5 mt-2.5 pt-2.5 border-t border-white/5">
+        <LocationSelector />
+        <div className="relative flex-1">
+          <Search className="w-3.5 h-3.5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+          <input
+            type="text"
+            placeholder="Search movies, genres..."
+            value={searchQuery}
+            onChange={(e) => dispatch(setSearchQuery(e.target.value))}
+            className="w-full pl-8 pr-3 py-1.5 rounded-xl bg-surface-secondary border border-white/5 text-xs text-gray-100 placeholder-gray-400 focus:outline-none focus:border-brand-primary/50"
+          />
+        </div>
+      </div>
     </nav>
   );
 };

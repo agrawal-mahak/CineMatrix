@@ -14,6 +14,7 @@ const AddMovieModal = ({ isOpen, onClose }) => {
   const [language, setLanguage] = useState('English, Hindi');
   const [posterUrl, setPosterUrl] = useState('');
   const [bannerUrl, setBannerUrl] = useState('');
+  const [trailerUrl, setTrailerUrl] = useState('');
   const [rating, setRating] = useState(8.5);
 
   const [loading, setLoading] = useState(false);
@@ -21,6 +22,13 @@ const AddMovieModal = ({ isOpen, onClose }) => {
   const [success, setSuccess] = useState(false);
 
   if (!isOpen) return null;
+
+  const formatYouTubeEmbed = (url) => {
+    if (!url) return '';
+    if (url.includes('/embed/')) return url;
+    const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+    return match ? `https://www.youtube.com/embed/${match[1]}` : url;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,6 +48,7 @@ const AddMovieModal = ({ isOpen, onClose }) => {
         language: languageArray,
         posterUrl: posterUrl || 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&q=80',
         bannerUrl: bannerUrl || 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&q=80',
+        trailerUrl: formatYouTubeEmbed(trailerUrl) || 'https://www.youtube.com/embed/YoHD9XEInc0',
         rating: Number(rating),
       };
 
@@ -240,6 +249,22 @@ const AddMovieModal = ({ isOpen, onClose }) => {
                 placeholder="https://images.unsplash.com/..."
                 value={bannerUrl}
                 onChange={(e) => setBannerUrl(e.target.value)}
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-surface-primary border border-white/5 text-sm text-gray-100 focus:outline-none focus:border-brand-primary"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">
+              YouTube Trailer URL or Embed Link
+            </label>
+            <div className="relative">
+              <Film className="w-4 h-4 text-brand-primary absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <input
+                type="url"
+                placeholder="https://www.youtube.com/watch?v=YoHD9XEInc0"
+                value={trailerUrl}
+                onChange={(e) => setTrailerUrl(e.target.value)}
                 className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-surface-primary border border-white/5 text-sm text-gray-100 focus:outline-none focus:border-brand-primary"
               />
             </div>
