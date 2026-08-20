@@ -87,8 +87,8 @@ const HomePage = () => {
               onClick={() => setSelectedLanguage(lang)}
               className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
                 selectedLanguage === lang
-                  ? 'bg-brand-accent text-white shadow-md'
-                  : 'bg-white/5 hover:bg-white/10 text-gray-300'
+                  ? 'bg-amber-500/20 text-amber-400 border border-amber-500/40 shadow-sm font-bold'
+                  : 'bg-white/5 hover:bg-white/10 text-gray-300 border border-white/5'
               }`}
             >
               {lang}

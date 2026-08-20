@@ -8,21 +8,22 @@ export default {
     extend: {
       colors: {
         surface: {
-          primary: "#0B0F19",
-          secondary: "#161F30",
-          tertiary: "#1F293D",
+          primary: "#090D16",
+          secondary: "#121824",
+          tertiary: "#1C2536",
         },
         brand: {
           primary: "#E50914",
-          accent: "#6366F1",
-          hover: "#DC2626",
+          accent: "#E50914",
+          hover: "#C10711",
+          gold: "#F59E0B",
         },
         seat: {
-          standard: "#334155",
-          premium: "#0284C7",
+          standard: "#2D3748",
+          premium: "#1E40AF",
           selected: "#10B981",
           locked: "#F59E0B",
-          booked: "#1E293B",
+          booked: "#1A202C",
         },
       },
       fontFamily: {
@@ -31,7 +32,7 @@ export default {
       borderRadius: {
         seat: '6px',
         badge: '6px',
-        card: '12px',
+        card: '16px',
         pill: '100px',
       },
     },

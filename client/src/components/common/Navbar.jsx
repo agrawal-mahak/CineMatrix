@@ -32,10 +32,10 @@ const Navbar = () => {
         
         {/* Brand Logo */}
         <Link to="/" className="flex items-center gap-2 group">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-primary to-brand-accent flex items-center justify-center shadow-lg shadow-brand-primary/30 group-hover:scale-105 transition-transform">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-primary to-rose-600 flex items-center justify-center shadow-lg shadow-brand-primary/30 group-hover:scale-105 transition-transform">
             <Film className="w-6 h-6 text-white" />
           </div>
-          <span className="text-2xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-brand-accent">
+          <span className="text-2xl font-extrabold tracking-tight text-white">
             Cine<span className="text-brand-primary">Matrix</span>
           </span>
         </Link>
