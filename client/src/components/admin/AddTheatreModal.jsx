@@ -4,7 +4,8 @@ import API from '../../services/api';
 
 const AddTheatreModal = ({ isOpen, onClose, onTheatreAdded }) => {
   const [name, setName] = useState('');
-  const [city, setCity] = useState('New York');
+  const [city, setCity] = useState('Mumbai');
+  const [customCity, setCustomCity] = useState('');
   const [address, setAddress] = useState('');
   const [screenName, setScreenName] = useState('Screen 1 (IMAX)');
   const [rowsCount, setRowsCount] = useState(4);
@@ -23,6 +24,8 @@ const AddTheatreModal = ({ isOpen, onClose, onTheatreAdded }) => {
     setSuccess(false);
 
     try {
+      const finalCity = city === 'Other' && customCity.trim() ? customCity.trim() : city;
+
       // Generate seats matrix
       const rowLetters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
       const seats = [];
@@ -45,7 +48,7 @@ const AddTheatreModal = ({ isOpen, onClose, onTheatreAdded }) => {
 
       const payload = {
         name,
-        city,
+        city: finalCity,
         address,
         screens: [
           {
@@ -69,18 +72,25 @@ const AddTheatreModal = ({ isOpen, onClose, onTheatreAdded }) => {
         setAddress('');
       }, 1200);
     } catch (err) {
-      setError(err.response?.data?.error || 'Failed to add theatre');
+      setError(err.response?.data?.error || err.response?.data?.message || 'Failed to add theatre');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
-      <div className="relative w-full max-w-lg bg-surface-secondary border border-white/10 rounded-3xl shadow-2xl overflow-hidden">
-        
+    <div
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200"
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-lg bg-[#141A29] border border-white/10 rounded-3xl shadow-2xl overflow-hidden animate-scale-in"
+      >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-white/5 bg-surface-primary/50">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-surface-primary/50">
           <div className="flex items-center gap-2 text-white font-bold text-lg">
             <div className="w-8 h-8 rounded-lg bg-brand-primary/20 border border-brand-primary/40 flex items-center justify-center text-brand-primary">
               <Building2 className="w-4 h-4" />
@@ -88,8 +98,9 @@ const AddTheatreModal = ({ isOpen, onClose, onTheatreAdded }) => {
             <span>Admin: Add New Theatre</span>
           </div>
           <button
+            type="button"
             onClick={onClose}
-            className="p-1.5 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
+            className="p-1.5 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -97,15 +108,14 @@ const AddTheatreModal = ({ isOpen, onClose, onTheatreAdded }) => {
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
-          
           {error && (
-            <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+            <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-sm">
               {error}
             </div>
           )}
 
           {success && (
-            <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm flex items-center gap-2">
+            <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-sm flex items-center gap-2">
               <CheckCircle2 className="w-5 h-5" />
               <span>Theatre registered successfully!</span>
             </div>
@@ -119,14 +129,14 @@ const AddTheatreModal = ({ isOpen, onClose, onTheatreAdded }) => {
             <input
               type="text"
               required
-              placeholder="e.g. CineMatrix Grand Dolby Cinema"
+              placeholder="e.g. PVR INOX : Phoenix Mall"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full px-4 py-2.5 rounded-xl bg-surface-primary border border-white/5 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-brand-primary"
+              className="w-full px-4 py-2.5 rounded-xl bg-surface-primary border border-white/10 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-brand-primary"
             />
           </div>
 
-          {/* City & Address */}
+          {/* City Selection */}
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">
@@ -135,18 +145,54 @@ const AddTheatreModal = ({ isOpen, onClose, onTheatreAdded }) => {
               <select
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-xl bg-surface-primary border border-white/5 text-sm text-gray-100 focus:outline-none focus:border-brand-primary"
+                className="w-full px-4 py-2.5 rounded-xl bg-surface-primary border border-white/10 text-sm text-gray-100 focus:outline-none focus:border-brand-primary"
               >
-                <option value="Ratlam">Ratlam</option>
                 <option value="Mumbai">Mumbai</option>
-                <option value="Delhi NCR">Delhi NCR</option>
+                <option value="Delhi">Delhi</option>
                 <option value="Bengaluru">Bengaluru</option>
+                <option value="Hyderabad">Hyderabad</option>
+                <option value="Pune">Pune</option>
+                <option value="Chennai">Chennai</option>
+                <option value="Kolkata">Kolkata</option>
+                <option value="Ratlam">Ratlam</option>
                 <option value="Indore">Indore</option>
                 <option value="Bhopal">Bhopal</option>
-                <option value="Hyderabad">Hyderabad</option>
+                <option value="Other">Custom City...</option>
               </select>
             </div>
 
+            {city === 'Other' ? (
+              <div>
+                <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">
+                  Custom City Name
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="Enter city..."
+                  value={customCity}
+                  onChange={(e) => setCustomCity(e.target.value)}
+                  className="w-full px-4 py-2.5 rounded-xl bg-surface-primary border border-white/10 text-sm text-gray-100 focus:outline-none focus:border-brand-primary"
+                />
+              </div>
+            ) : (
+              <div>
+                <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">
+                  Street Address
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Lower Parel, Marg 12"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  className="w-full px-4 py-2.5 rounded-xl bg-surface-primary border border-white/10 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-brand-primary"
+                />
+              </div>
+            )}
+          </div>
+
+          {city === 'Other' && (
             <div>
               <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">
                 Street Address
@@ -154,13 +200,13 @@ const AddTheatreModal = ({ isOpen, onClose, onTheatreAdded }) => {
               <input
                 type="text"
                 required
-                placeholder="742 Broadway Ave"
+                placeholder="e.g. Main Street, Sector 4"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-xl bg-surface-primary border border-white/5 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-brand-primary"
+                className="w-full px-4 py-2.5 rounded-xl bg-surface-primary border border-white/10 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-brand-primary"
               />
             </div>
-          </div>
+          )}
 
           {/* Screen Info */}
           <div>
@@ -172,7 +218,7 @@ const AddTheatreModal = ({ isOpen, onClose, onTheatreAdded }) => {
               required
               value={screenName}
               onChange={(e) => setScreenName(e.target.value)}
-              className="w-full px-4 py-2.5 rounded-xl bg-surface-primary border border-white/5 text-sm text-gray-100 focus:outline-none focus:border-brand-primary"
+              className="w-full px-4 py-2.5 rounded-xl bg-surface-primary border border-white/10 text-sm text-gray-100 focus:outline-none focus:border-brand-primary"
             />
           </div>
 
@@ -180,7 +226,7 @@ const AddTheatreModal = ({ isOpen, onClose, onTheatreAdded }) => {
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">
-                Number of Rows (A-H)
+                Rows Count (A-H)
               </label>
               <input
                 type="number"
@@ -188,7 +234,7 @@ const AddTheatreModal = ({ isOpen, onClose, onTheatreAdded }) => {
                 max={8}
                 value={rowsCount}
                 onChange={(e) => setRowsCount(Number(e.target.value))}
-                className="w-full px-4 py-2.5 rounded-xl bg-surface-primary border border-white/5 text-sm text-gray-100 focus:outline-none focus:border-brand-primary"
+                className="w-full px-4 py-2.5 rounded-xl bg-surface-primary border border-white/10 text-sm text-gray-100 focus:outline-none focus:border-brand-primary"
               />
             </div>
 
@@ -202,35 +248,35 @@ const AddTheatreModal = ({ isOpen, onClose, onTheatreAdded }) => {
                 max={12}
                 value={seatsPerRow}
                 onChange={(e) => setSeatsPerRow(Number(e.target.value))}
-                className="w-full px-4 py-2.5 rounded-xl bg-surface-primary border border-white/5 text-sm text-gray-100 focus:outline-none focus:border-brand-primary"
+                className="w-full px-4 py-2.5 rounded-xl bg-surface-primary border border-white/10 text-sm text-gray-100 focus:outline-none focus:border-brand-primary"
               />
             </div>
           </div>
 
           {/* Total seats indicator */}
-          <div className="p-3 rounded-xl bg-surface-primary/60 border border-white/5 text-xs text-gray-400 flex items-center justify-between">
+          <div className="p-3 rounded-xl bg-surface-primary/60 border border-white/10 text-xs text-gray-400 flex items-center justify-between">
             <span>Generated Screen Capacity:</span>
             <span className="font-extrabold text-brand-primary">{rowsCount * seatsPerRow} Seats</span>
           </div>
 
           {/* Buttons */}
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/5">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
             <button
               type="button"
               onClick={onClose}
-              className="px-5 py-2.5 rounded-xl bg-surface-primary hover:bg-surface-tertiary text-gray-300 font-semibold text-sm transition-colors"
+              className="px-5 py-2.5 rounded-xl bg-surface-primary hover:bg-white/10 text-gray-300 font-semibold text-sm transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="px-6 py-2.5 rounded-xl bg-brand-primary hover:bg-brand-hover text-white font-bold text-sm shadow-lg shadow-brand-primary/30 transition-all flex items-center gap-2"
+              className="px-6 py-2.5 rounded-xl bg-brand-primary hover:bg-brand-hover text-white font-bold text-sm shadow-lg shadow-brand-primary/30 transition-all flex items-center gap-2 disabled:opacity-50"
             >
               {loading ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>Saving...</span>
+                  <span>Creating...</span>
                 </>
               ) : (
                 <span>Create Theatre</span>

@@ -9,6 +9,9 @@ import CheckoutPage from './pages/CheckoutPage';
 import TicketSuccessPage from './pages/TicketSuccessPage';
 import MyBookingsPage from './pages/MyBookingsPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
+import TheatreShowtimesPage from './pages/TheatreShowtimesPage';
+
+import Footer from './components/common/Footer';
 
 function App() {
   return (
@@ -25,6 +28,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/movie/:id" element={<MovieDetailPage />} />
+            <Route path="/movie/:id/shows" element={<TheatreShowtimesPage />} />
             <Route path="/select-seats/:showId" element={<SeatSelectionPage />} />
             <Route path="/checkout" element={<CheckoutPage />} />
             <Route path="/ticket-success" element={<TicketSuccessPage />} />
@@ -33,15 +37,8 @@ function App() {
           </Routes>
         </main>
 
-        {/* Global Footer */}
-        <footer className="border-t border-white/5 py-8 mt-16 bg-surface-primary/50 text-center text-xs text-gray-400">
-          <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="font-bold text-gray-300">
-              Cine<span className="text-brand-primary">Matrix</span> Ticket Booking Platform
-            </div>
-            <div>© 2026 CineMatrix. All rights reserved. Powered by Node.js, Express, MongoDB & React.</div>
-          </div>
-        </footer>
+        {/* Professional Ticket Booking Footer */}
+        <Footer />
       </div>
     </Router>
   );

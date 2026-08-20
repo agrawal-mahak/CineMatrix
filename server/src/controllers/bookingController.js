@@ -240,3 +240,55 @@ exports.cancelHold = async (req, res, next) => {
     next(error);
   }
 };
+
+// @desc    Validate promo code / coupon
+// @route   POST /api/bookings/validate-coupon
+// @access  Public
+exports.validateCoupon = async (req, res, next) => {
+  try {
+    const { code, amount } = req.body;
+    const cleanCode = code ? code.trim().toUpperCase() : '';
+    const baseAmount = Number(amount) || 0;
+
+    const validCoupons = {
+      FIRST50: { discountType: 'PERCENT', value: 50, maxDiscount: 150, description: '50% OFF up to $150 on your booking' },
+      BOOKMYSHOW20: { discountType: 'PERCENT', value: 20, maxDiscount: 200, description: '20% OFF instant discount' },
+      CINEMA100: { discountType: 'FLAT', value: 100, minAmount: 300, description: '$100 Flat Discount on orders over $300' },
+      VIPPASS: { discountType: 'FLAT', value: 200, minAmount: 500, description: '$200 VIP Flat Discount on orders over $500' },
+    };
+
+    const coupon = validCoupons[cleanCode];
+
+    if (!coupon) {
+      return res.status(400).json({ success: false, message: 'Invalid or expired promo code' });
+    }
+
+    if (coupon.minAmount && baseAmount < coupon.minAmount) {
+      return res.status(400).json({
+        success: false,
+        message: `This coupon requires a minimum total amount of $${coupon.minAmount}`,
+      });
+    }
+
+    let discountAmount = 0;
+    if (coupon.discountType === 'PERCENT') {
+      discountAmount = Math.min((baseAmount * coupon.value) / 100, coupon.maxDiscount || Infinity);
+    } else if (coupon.discountType === 'FLAT') {
+      discountAmount = Math.min(coupon.value, baseAmount);
+    }
+
+    discountAmount = Math.round(discountAmount);
+
+    res.status(200).json({
+      success: true,
+      coupon: {
+        code: cleanCode,
+        discountAmount,
+        description: coupon.description,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+

@@ -2,7 +2,7 @@ import React from 'react';
 import { Star, Play, Ticket, Sparkles, Clock, Globe } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-const HeroBillboard = ({ featuredMovie }) => {
+const HeroBillboard = ({ featuredMovie, onWatchTrailer }) => {
   const navigate = useNavigate();
 
   if (!featuredMovie) return null;
@@ -75,7 +75,7 @@ const HeroBillboard = ({ featuredMovie }) => {
           </button>
 
           <button
-            onClick={() => navigate(`/movie/${featuredMovie._id}`)}
+            onClick={() => onWatchTrailer && onWatchTrailer(featuredMovie)}
             className="px-5 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-sm backdrop-blur-md border border-white/10 transition-all flex items-center gap-2"
           >
             <Play className="w-4 h-4 fill-white text-white" />

@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { confirmBookingAction } from '../store/bookingSlice';
 import HoldTimer from '../components/seats/HoldTimer';
 import ConcessionsSelector from '../components/checkout/ConcessionsSelector';
-import { ShieldCheck, CreditCard, Smartphone, Building2, Lock, Tag, Loader2, ArrowLeft, AlertCircle, Popcorn } from 'lucide-react';
+import API from '../services/api';
+import { ShieldCheck, CreditCard, Smartphone, Building2, Lock, Tag, Loader2, ArrowLeft, AlertCircle, Popcorn, CheckCircle2 } from 'lucide-react';
 
 const CheckoutPage = () => {
   const navigate = useNavigate();
@@ -17,7 +18,9 @@ const CheckoutPage = () => {
   const [paymentMethod, setPaymentMethod] = useState('card'); // 'card' | 'upi' | 'netbanking'
   const [promoCode, setPromoCode] = useState('');
   const [discount, setDiscount] = useState(0);
-  const [promoApplied, setPromoApplied] = useState(false);
+  const [appliedCoupon, setAppliedCoupon] = useState(null);
+  const [couponError, setCouponError] = useState('');
+  const [validatingCoupon, setValidatingCoupon] = useState(false);
 
   if (!currentBooking) {
     return (
@@ -39,16 +42,41 @@ const CheckoutPage = () => {
     0
   );
 
-  const totalPayable = Math.max(0, basePrice + convenienceFee + snacksTotal - discount);
+  const subtotalBeforeDiscount = basePrice + convenienceFee + snacksTotal;
+  const totalPayable = Math.max(0, subtotalBeforeDiscount - discount);
 
-  const handleApplyPromo = (e) => {
+  const handleApplyPromo = async (e) => {
     e.preventDefault();
-    if (promoCode.trim().toUpperCase() === 'CINEMA10') {
-      setDiscount(50);
-      setPromoApplied(true);
-    } else {
-      alert('Invalid Promo Code. Try "CINEMA10" for $50 off!');
+    if (!promoCode.trim()) return;
+
+    setValidatingCoupon(true);
+    setCouponError('');
+
+    try {
+      const res = await API.post('/bookings/validate-coupon', {
+        code: promoCode,
+        amount: subtotalBeforeDiscount,
+      });
+
+      if (res.data.success) {
+        setDiscount(res.data.coupon.discountAmount);
+        setAppliedCoupon(res.data.coupon);
+        setCouponError('');
+      }
+    } catch (err) {
+      setDiscount(0);
+      setAppliedCoupon(null);
+      setCouponError(err.response?.data?.message || 'Invalid promo code');
+    } finally {
+      setValidatingCoupon(false);
     }
+  };
+
+  const handleRemoveCoupon = () => {
+    setDiscount(0);
+    setAppliedCoupon(null);
+    setPromoCode('');
+    setCouponError('');
   };
 
   const handleConfirmPayment = async () => {
@@ -66,7 +94,6 @@ const CheckoutPage = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-4 lg:px-8 py-6">
-      
       {/* Navigation & Title */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
@@ -102,10 +129,8 @@ const CheckoutPage = () => {
 
       {/* Two-Column Split View */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        
         {/* Left Column: Itemized Ticket Fees, Snacks & Promo */}
         <div className="lg:col-span-7 space-y-6">
-          
           {/* Concessions / Food Add-ons Selector */}
           <ConcessionsSelector />
 
@@ -116,12 +141,12 @@ const CheckoutPage = () => {
             <div className="space-y-3 text-sm">
               <div className="flex items-center justify-between text-gray-300">
                 <span>Seats ({currentBooking.seats?.join(', ')})</span>
-                <span className="font-bold text-gray-100">₹{basePrice}</span>
+                <span className="font-bold text-gray-100">${basePrice}</span>
               </div>
 
               <div className="flex items-center justify-between text-gray-300">
                 <span>Convenience & Booking Fee</span>
-                <span className="font-bold text-gray-100">₹{convenienceFee}</span>
+                <span className="font-bold text-gray-100">${convenienceFee}</span>
               </div>
 
               {snacksTotal > 0 && (
@@ -129,48 +154,82 @@ const CheckoutPage = () => {
                   <span className="flex items-center gap-1">
                     <Popcorn className="w-4 h-4" /> Snacks & Food Add-ons
                   </span>
-                  <span>+₹{snacksTotal}</span>
+                  <span>+${snacksTotal}</span>
                 </div>
               )}
 
               {discount > 0 && (
                 <div className="flex items-center justify-between text-emerald-400 font-semibold">
-                  <span>Promo Discount (CINEMA10)</span>
-                  <span>-₹{discount}</span>
+                  <span>Promo Discount ({appliedCoupon?.code})</span>
+                  <span>-${discount}</span>
                 </div>
               )}
 
               <div className="border-t border-white/10 pt-3 flex items-center justify-between text-base font-extrabold text-white">
                 <span>Total Amount Payable</span>
-                <span className="text-xl text-emerald-400">₹{totalPayable}</span>
+                <span className="text-xl text-emerald-400">${totalPayable}</span>
               </div>
             </div>
           </div>
 
           {/* Promo Code Input Card */}
-          <div className="p-6 rounded-2xl bg-surface-secondary border border-white/5 shadow-xl">
-            <h4 className="text-sm font-bold text-gray-300 mb-3 flex items-center gap-2">
-              <Tag className="w-4 h-4 text-brand-primary" />
-              <span>Apply Promo Voucher</span>
-            </h4>
+          <div className="p-6 rounded-2xl bg-surface-secondary border border-white/5 shadow-xl space-y-4">
+            <div className="flex items-center justify-between">
+              <h4 className="text-sm font-bold text-gray-300 flex items-center gap-2">
+                <Tag className="w-4 h-4 text-brand-primary" />
+                <span>Apply Promo Voucher / Offer</span>
+              </h4>
+            </div>
 
-            <form onSubmit={handleApplyPromo} className="flex gap-2">
-              <input
-                type="text"
-                placeholder="Enter CINEMA10 for $50 off"
-                value={promoCode}
-                onChange={(e) => setPromoCode(e.target.value)}
-                disabled={promoApplied}
-                className="flex-1 px-4 py-2.5 rounded-xl bg-surface-primary border border-white/5 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-brand-primary uppercase font-mono"
-              />
-              <button
-                type="submit"
-                disabled={promoApplied}
-                className="px-5 py-2.5 rounded-xl bg-brand-primary hover:bg-brand-hover text-white text-xs font-bold transition-all disabled:opacity-50"
-              >
-                {promoApplied ? 'Applied!' : 'Apply'}
-              </button>
-            </form>
+            {/* Quick Available Promo Badges */}
+            <div className="flex flex-wrap gap-2 text-xs">
+              {['FIRST50', 'BOOKMYSHOW20', 'CINEMA100'].map((code) => (
+                <button
+                  key={code}
+                  type="button"
+                  onClick={() => setPromoCode(code)}
+                  className="px-2.5 py-1 rounded-lg bg-surface-primary hover:bg-white/10 border border-white/10 text-gray-300 font-mono text-[11px] hover:border-brand-primary/50 transition-colors"
+                >
+                  🏷️ {code}
+                </button>
+              ))}
+            </div>
+
+            {appliedCoupon ? (
+              <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-between text-xs">
+                <div className="flex items-center gap-2 text-emerald-400 font-bold">
+                  <CheckCircle2 className="w-4 h-4" />
+                  <span>Promo Code '{appliedCoupon.code}' Applied! (${appliedCoupon.discountAmount} Off)</span>
+                </div>
+                <button
+                  onClick={handleRemoveCoupon}
+                  className="text-gray-400 hover:text-red-400 font-bold underline transition-colors"
+                >
+                  Remove
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleApplyPromo} className="flex gap-2">
+                <input
+                  type="text"
+                  placeholder="Enter code (e.g. FIRST50)"
+                  value={promoCode}
+                  onChange={(e) => setPromoCode(e.target.value)}
+                  className="flex-1 px-4 py-2.5 rounded-xl bg-surface-primary border border-white/10 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-brand-primary uppercase font-mono"
+                />
+                <button
+                  type="submit"
+                  disabled={validatingCoupon || !promoCode.trim()}
+                  className="px-6 py-2.5 rounded-xl bg-brand-primary hover:bg-brand-hover text-white text-xs font-bold transition-all disabled:opacity-50 flex items-center gap-2"
+                >
+                  {validatingCoupon ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Apply Code'}
+                </button>
+              </form>
+            )}
+
+            {couponError && (
+              <p className="text-xs text-red-400 font-medium">{couponError}</p>
+            )}
           </div>
         </div>
 
@@ -276,7 +335,7 @@ const CheckoutPage = () => {
               ) : (
                 <>
                   <Lock className="w-4 h-4" />
-                  <span>Pay Securely (₹{totalPayable})</span>
+                  <span>Pay Securely (${totalPayable})</span>
                 </>
               )}
             </button>
@@ -287,7 +346,6 @@ const CheckoutPage = () => {
             </div>
           </div>
         </div>
-
       </div>
     </div>
   );

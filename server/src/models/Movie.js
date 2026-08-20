@@ -31,6 +31,14 @@ const MovieSchema = new mongoose.Schema(
       type: String,
       default: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&q=80',
     },
+    trailerUrl: {
+      type: String,
+      default: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+    },
+    format: {
+      type: [String],
+      default: ['2D', '3D', 'IMAX'],
+    },
     releaseDate: {
       type: Date,
       default: Date.now,

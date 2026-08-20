@@ -11,6 +11,7 @@ import {
   ChevronDown,
   Shield,
 } from 'lucide-react';
+import LocationSelector from './LocationSelector';
 import { setSelectedCity, setSearchQuery } from '../../store/movieSlice';
 import { openAuthModal, logout } from '../../store/authSlice';
 
@@ -41,38 +42,8 @@ const Navbar = () => {
 
         {/* Search & City Selection Bar */}
         <div className="hidden md:flex items-center gap-3 flex-1 max-w-xl mx-4">
-          
-          {/* City Selector Dropdown */}
-          <div className="relative">
-            <button
-              onClick={() => setIsCityDropdownOpen(!isCityDropdownOpen)}
-              className="flex items-center gap-2 px-3 py-2 rounded-xl bg-surface-secondary hover:bg-surface-tertiary text-sm font-medium border border-white/5 transition-colors text-gray-200"
-            >
-              <MapPin className="w-4 h-4 text-brand-primary" />
-              <span>{selectedCity}</span>
-              <ChevronDown className="w-3.5 h-3.5 text-gray-400" />
-            </button>
-
-            {isCityDropdownOpen && (
-              <div className="absolute left-0 mt-2 w-48 rounded-xl bg-surface-secondary border border-white/10 shadow-2xl py-1 z-50">
-                {CITIES.map((city) => (
-                  <button
-                    key={city}
-                    onClick={() => {
-                      dispatch(setSelectedCity(city));
-                      setIsCityDropdownOpen(false);
-                    }}
-                    className={`w-full text-left px-4 py-2 text-sm hover:bg-surface-tertiary transition-colors flex items-center justify-between ${
-                      selectedCity === city ? 'text-brand-primary font-semibold' : 'text-gray-300'
-                    }`}
-                  >
-                    {city}
-                    {selectedCity === city && <span className="w-1.5 h-1.5 rounded-full bg-brand-primary" />}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
+          {/* Location Selector */}
+          <LocationSelector />
 
           {/* Search Input */}
           <div className="relative flex-1">

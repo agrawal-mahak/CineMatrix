@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -7,13 +7,18 @@
 @layer base {
   body {
     background-color: #0B0F19;
+    background-image: 
+      radial-gradient(at 0% 0%, rgba(229, 9, 20, 0.08) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(99, 102, 241, 0.08) 0px, transparent 50%),
+      radial-gradient(at 50% 100%, rgba(16, 185, 129, 0.05) 0px, transparent 50%);
+    background-attachment: fixed;
     color: #F3F4F6;
     font-family: 'Inter', 'Plus Jakarta Sans', sans-serif;
     overflow-x: hidden;
   }
 }
 
-/* Glassmorphism & Custom Scrollbar Utilities */
+/* Glassmorphism & Custom Glow Utilities */
 .glass-panel {
   background: rgba(22, 31, 48, 0.75);
   backdrop-filter: blur(16px);
@@ -23,9 +28,51 @@
 
 .glass-nav {
   background: rgba(11, 15, 25, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Modern Card Glow & Hover Effects */
+.glow-card {
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glow-card:hover {
+  box-shadow: 0 12px 30px -10px rgba(229, 9, 20, 0.35), 0 0 20px 2px rgba(255, 255, 255, 0.05);
+  border-color: rgba(229, 9, 20, 0.4);
+}
+
+.glow-button {
+  transition: all 0.25s ease-in-out;
+  box-shadow: 0 4px 20px -2px rgba(229, 9, 20, 0.4);
+}
+
+.glow-button:hover {
+  box-shadow: 0 8px 28px 0px rgba(229, 9, 20, 0.6);
+  transform: translateY(-2px);
+}
+
+.gold-glow {
+  box-shadow: 0 0 15px rgba(250, 204, 21, 0.3);
+}
+
+/* Custom Text Gradient Masks */
+.text-gradient-brand {
+  background: linear-gradient(135deg, #FFFFFF 0%, #F3F4F6 50%, #E50914 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-gold {
+  background: linear-gradient(135deg, #FDE047 0%, #EAB308 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Screen Arc Ambient Light Glow */
+.screen-glow {
+  box-shadow: 0 -20px 50px -10px rgba(99, 102, 241, 0.4);
 }
 
 /* Perforated Ticket Pattern */
@@ -37,7 +84,51 @@
   mask-image: radial-gradient(circle at 100% 50%, transparent 12px, black 13px);
 }
 
-/* Scrollbar */
+/* Smooth Page & Entrance Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(90deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.03) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Scrollbar Styling */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -50,7 +141,7 @@
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: #E50914;
 }
 
 /* Single-Page Print Optimization Rules */

@@ -56,8 +56,16 @@ const AddShowModal = ({ isOpen, onClose, movies, theatres, onShowAdded }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
-      <div className="relative w-full max-w-lg bg-surface-secondary border border-white/10 rounded-3xl shadow-2xl overflow-hidden">
+    <div
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200"
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-lg bg-[#141A29] border border-white/10 rounded-3xl shadow-2xl overflow-hidden animate-scale-in"
+      >
         
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-white/5 bg-surface-primary/50">
